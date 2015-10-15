@@ -1,13 +1,21 @@
 package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
 import edu.towson.cis.cosc455.jseymour.project1.interfaces.SyntaxAnalyzer;
+import edu.towson.cis.cosc455.jseymour.project1.tokens.Token;
 
 public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 
 	@Override
-	public void markdown() throws CompilerException {
-		// TODO Auto-generated method stub
-
+	public void markdown() throws CompilerException
+	{
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.DOCB))
+		{
+			// TODO
+		}
+		else
+		{
+			// TODO
+		}
 	}
 
 	@Override
