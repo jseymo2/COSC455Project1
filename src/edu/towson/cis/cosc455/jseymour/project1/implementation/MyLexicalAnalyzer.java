@@ -7,10 +7,9 @@ import edu.towson.cis.cosc455.jseymour.project1.interfaces.LexicalAnalyzer;
 public class MyLexicalAnalyzer implements LexicalAnalyzer {
 	
 	public static char nextCharacter = '\0';
-	public static String nextToken = "";
 
 	public void getNextToken() {
-		nextToken = "";
+		MyCompiler.currentToken = "";
 		getCharacter();
 		while(isSpace(nextCharacter))
 			getCharacter();
@@ -33,7 +32,7 @@ public class MyLexicalAnalyzer implements LexicalAnalyzer {
 	}
 
 	public void addCharacter() {
-		nextToken = nextToken + nextCharacter;
+		MyCompiler.currentToken = MyCompiler.currentToken + nextCharacter;
 	}
 
 	public boolean isSpace(char c) {
@@ -43,10 +42,15 @@ public class MyLexicalAnalyzer implements LexicalAnalyzer {
 	public boolean lookupToken() {
 		for(String s : Token.token)
 		{
-			if(nextToken.equalsIgnoreCase(s))
+			if(MyCompiler.currentToken.equalsIgnoreCase(s))
 				return true;
 		}
 		return false;
+	}
+	
+	public boolean isValidText()
+	{
+		
 	}
 
 }
