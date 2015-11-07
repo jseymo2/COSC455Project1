@@ -11,9 +11,9 @@ public class MyLexicalAnalyzer implements LexicalAnalyzer {
 	public void getNextToken() {
 		MyCompiler.currentToken = "";
 		getCharacter();
-		while(isSpace(nextCharacter))
+		while(isSpace())
 			getCharacter();
-		while(!isSpace(nextCharacter))
+		while(!isSpace())
 		{
 			addCharacter();
 		}
@@ -35,8 +35,8 @@ public class MyLexicalAnalyzer implements LexicalAnalyzer {
 		MyCompiler.currentToken = MyCompiler.currentToken + nextCharacter;
 	}
 
-	public boolean isSpace(char c) {
-		return Character.isWhitespace(c);
+	public boolean isSpace() {
+		return Character.isWhitespace(nextCharacter);
 	}
 
 	public boolean lookupToken() {
@@ -50,7 +50,26 @@ public class MyLexicalAnalyzer implements LexicalAnalyzer {
 	
 	public boolean isValidText()
 	{
-		
+		for(char c : MyCompiler.currentToken.toCharArray())
+		{
+			if(Character.isLetterOrDigit(c))
+				continue;
+			switch(c) {
+			case ',':
+			case '.':
+			case '"':
+			case ':':
+			case '?':
+			case '_':
+			case '!':
+			case '/':
+			case '\n':
+			case '\t':
+				continue;
+			}
+			return false;
+		}
+		return true;
 	}
 
 }
