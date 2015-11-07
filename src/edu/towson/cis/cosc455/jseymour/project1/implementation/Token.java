@@ -24,4 +24,6 @@ public class Token
 	public static String VIDEO = "%";
 	public static String ADDRESSB = "(";
 	public static String ADDRESSE = ")";
+	
+	public static String[] token = 	{DOCB,DOCE,HEAD,TITLEB,TITLEE,PARAB,PARAE,DEFB,USEB,DEFUSEE,EQSIGN,BOLD,ITALICS,LISTITEMB,LISTITEME,NEWLINE,LINKB,LINKE,AUDIO,VIDEO,ADDRESSB,ADDRESSE};
 }

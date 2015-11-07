@@ -1,36 +1,51 @@
 package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
+import java.io.IOException;
+
 import edu.towson.cis.cosc455.jseymour.project1.interfaces.LexicalAnalyzer;
 
 public class MyLexicalAnalyzer implements LexicalAnalyzer {
+	
+	public static char nextCharacter = '\0';
+	public static String nextToken = "";
 
-	@Override
 	public void getNextToken() {
-		// TODO Auto-generated method stub
-
+		nextToken = "";
+		getCharacter();
+		while(isSpace(nextCharacter))
+			getCharacter();
+		while(!isSpace(nextCharacter))
+		{
+			addCharacter();
+		}
 	}
 
-	@Override
 	public void getCharacter() {
-		// TODO Auto-generated method stub
-
+		try
+		{
+			nextCharacter = (char)MyCompiler.fis.read();
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	@Override
 	public void addCharacter() {
-		// TODO Auto-generated method stub
-
+		nextToken = nextToken + nextCharacter;
 	}
 
-	@Override
-	public boolean isSpace(String c) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isSpace(char c) {
+		return Character.isWhitespace(c);
 	}
 
-	@Override
 	public boolean lookupToken() {
-		// TODO Auto-generated method stub
+		for(String s : Token.token)
+		{
+			if(nextToken.equalsIgnoreCase(s))
+				return true;
+		}
 		return false;
 	}
 

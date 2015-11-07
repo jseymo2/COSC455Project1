@@ -14,7 +14,7 @@ package edu.towson.cis.cosc455.jseymour.project1.interfaces;
  public interface LexicalAnalyzer {
 
     /** The next character. */
-    String nextCharacter = "";
+    //String nextCharacter = "";
 
     /** The current position. */
     int currentPosition = 0;
@@ -45,7 +45,7 @@ package edu.towson.cis.cosc455.jseymour.project1.interfaces;
 	 * @param c the current character
 	 * @return true, if is space; otherwise false
 	 */
-	boolean isSpace(String c);
+	boolean isSpace(char c);
 
 	/**
 	 * This method checks to see if the current, possible token is legal in the
