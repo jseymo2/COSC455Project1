@@ -2,13 +2,14 @@ package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
 import java.io.IOException;
 
-import edu.towson.cis.cosc455.jseymour.project1.interfaces.LexicalAnalyzer;
+//import edu.towson.cis.cosc455.jseymour.project1.interfaces.LexicalAnalyzer;
 
-public class MyLexicalAnalyzer implements LexicalAnalyzer {
+public class MyLexicalAnalyzer //implements LexicalAnalyzer
+{
 	
 	public static char nextCharacter = '\0';
 
-	public void getNextToken() {
+	public static void getNextToken() {
 		MyCompiler.currentToken = "";
 		getCharacter();
 		while(isSpace())
@@ -19,7 +20,7 @@ public class MyLexicalAnalyzer implements LexicalAnalyzer {
 		}
 	}
 
-	public void getCharacter() {
+	public static void getCharacter() {
 		try
 		{
 			nextCharacter = (char)MyCompiler.fis.read();
@@ -31,15 +32,15 @@ public class MyLexicalAnalyzer implements LexicalAnalyzer {
 		}
 	}
 
-	public void addCharacter() {
+	public static void addCharacter() {
 		MyCompiler.currentToken = MyCompiler.currentToken + nextCharacter;
 	}
 
-	public boolean isSpace() {
+	public static boolean isSpace() {
 		return Character.isWhitespace(nextCharacter);
 	}
 
-	public boolean lookupToken() {
+	public static boolean lookupToken() {
 		for(String s : Token.token)
 		{
 			if(MyCompiler.currentToken.equalsIgnoreCase(s))
@@ -48,7 +49,7 @@ public class MyLexicalAnalyzer implements LexicalAnalyzer {
 		return false;
 	}
 	
-	public boolean isValidText()
+	public static boolean isValidText()
 	{
 		for(char c : MyCompiler.currentToken.toCharArray())
 		{
