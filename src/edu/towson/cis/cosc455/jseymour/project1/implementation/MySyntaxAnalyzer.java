@@ -74,17 +74,24 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 	}
 
 	public void body() throws CompilerException {
-		if(MyCompiler.currentToken.equalsIgnoreCase(Token.PARAB))
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.LISTITEMB) || 
+				MyCompiler.currentToken.equalsIgnoreCase(Token.AUDIO) || 
+				MyCompiler.currentToken.equalsIgnoreCase(Token.VIDEO) || 
+				MyCompiler.currentToken.equalsIgnoreCase(Token.NEWLINE) || 
+				MyCompiler.currentToken.equalsIgnoreCase(Token.USEB) || 
+				MyCompiler.currentToken.equalsIgnoreCase(Token.BOLD) || 
+				MyCompiler.currentToken.equalsIgnoreCase(Token.ITALICS) || 
+				MyCompiler.currentToken.equalsIgnoreCase(Token.LINKB) ||
+				MyLexicalAnalyzer.isValidText())
 		{
-			paragraph();
+			innerText();
 			body();
 		}
 		else
 		{
-			if(!MyCompiler.currentToken.equalsIgnoreCase(Token.DOCE))
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.PARAB))
 			{
-				innerText();
-				newline();
+				paragraph();
 				body();
 			}
 			else
@@ -144,9 +151,47 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 					}
 					else
 					{
-						innerItem();
-						innerText();
-						// no error, all optional
+						if(MyCompiler.currentToken.equalsIgnoreCase(Token.USEB))
+						{
+							variableUse();
+							innerItem();
+						}
+						else
+						{
+							if(MyCompiler.currentToken.equalsIgnoreCase(Token.BOLD))
+							{
+								bold();
+								innerItem();
+							}
+							else
+							{
+								if(MyCompiler.currentToken.equalsIgnoreCase(Token.ITALICS))
+								{
+									italics();
+									innerItem();
+								}
+								else
+								{
+									if(MyCompiler.currentToken.equalsIgnoreCase(Token.LINKB))
+									{
+										link();
+										innerItem();
+									}
+									else
+									{
+										if(MyLexicalAnalyzer.isValidText())
+										{
+											pushToken();
+											innerItem();
+										}
+										else
+										{
+											// no error, all optional
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
