@@ -1,111 +1,414 @@
 package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
 import edu.towson.cis.cosc455.jseymour.project1.interfaces.SyntaxAnalyzer;
-import edu.towson.cis.cosc455.jseymour.project1.tokens.Token;
 
 public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 
-	@Override
 	public void markdown() throws CompilerException
 	{
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.DOCB))
 		{
-			// TODO
+			pushToken();
+			variableDefine();
+			head();
+			body();
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.DOCE))
+			{
+				// pushToken();
+				// check that there is no more text
+			}
+			else
+			{
+				// error
+			}
 		}
 		else
 		{
-			// TODO
+			// error
+			// invalid start
+			// or empty file
 		}
 	}
 
-	@Override
 	public void head() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.HEAD))
+		{
+			pushToken();
+			title();
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.HEAD))
+			{
+				pushToken();
+			}
+			else
+			{
+				// error
+			}
+		}
+		else
+		{
+			// no error, head is optional
+		}
 	}
 
-	@Override
 	public void title() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.TITLEB))
+		{
+			pushToken();
+			while(MyLexicalAnalyzer.isValidText())
+			{
+				pushToken();
+			}
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.TITLEE))
+			{
+				pushToken();
+			}
+			else
+			{
+				// error
+			}
+		}
+		else
+		{
+			// no error, title is optional
+		}
 	}
 
-	@Override
 	public void body() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.PARAB))
+		{
+			paragraph();
+			body();
+		}
+		else
+		{
+			if(!MyCompiler.currentToken.equalsIgnoreCase(Token.DOCE))
+			{
+				innerText();
+				newline();
+				body();
+			}
+			else
+			{
+				// no error, body optional
+			}
+		}
 	}
 
-	@Override
 	public void paragraph() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.PARAB))
+		{
+			pushToken();
+			variableDefine();
+			innerText();
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.PARAE))
+			{
+				pushToken();
+			}
+			else
+			{
+				// error
+			}
+		}
+		else
+		{
+			// error
+		}
 	}
 
-	@Override
 	public void innerText() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.LISTITEMB))
+		{
+			listitem();
+			innerText();
+		}
+		else
+		{
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.AUDIO))
+			{
+				audio();
+				innerText();
+			}
+			else
+			{
+				if(MyCompiler.currentToken.equalsIgnoreCase(Token.VIDEO))
+				{
+					video();
+					innerText();
+				}
+				else
+				{
+					if(MyCompiler.currentToken.equalsIgnoreCase(Token.NEWLINE))
+					{
+						newline();
+						innerText();
+					}
+					else
+					{
+						innerItem();
+						innerText();
+						// no error, all optional
+					}
+				}
+			}
+		}
 	}
 
-	@Override
 	public void variableDefine() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.DEFB))
+		{
+			pushToken();
+			while(MyLexicalAnalyzer.isValidText())
+			{
+				pushToken();
+			}
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.EQSIGN))
+			{
+				pushToken();
+				while(MyLexicalAnalyzer.isValidText())
+				{
+					pushToken();
+				}
+				if(MyCompiler.currentToken.equalsIgnoreCase(Token.DEFUSEE))
+				{
+					pushToken();
+					variableDefine();
+				}
+				else
+				{
+					// error
+				}
+			}
+			else
+			{
+				// error
+			}
+		}
+		else
+		{
+			// no error, definitions optional
+		}
 	}
 
-	@Override
 	public void variableUse() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.USEB))
+		{
+			pushToken();
+			while(MyLexicalAnalyzer.isValidText())
+			{
+				pushToken();
+			}
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.DEFUSEE))
+			{
+				pushToken();
+			}
+			else
+			{
+				// error
+			}
+		}
+		else
+		{
+			// no error, variables optional
+		}
 	}
 
-	@Override
 	public void bold() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.BOLD))
+		{
+			pushToken();
+			while(MyLexicalAnalyzer.isValidText())
+			{
+				pushToken();
+			}
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.BOLD))
+			{
+				pushToken();
+			}
+			else
+			{
+				// error
+			}
+		}
+		else
+		{
+			// no error, bold optional
+		}
 	}
 
-	@Override
 	public void italics() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.ITALICS))
+		{
+			pushToken();
+			while(MyLexicalAnalyzer.isValidText())
+			{
+				pushToken();
+			}
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.ITALICS))
+			{
+				pushToken();
+			}
+			else
+			{
+				// error
+			}
+		}
+		else
+		{
+			// no error, italics optional
+		}
 	}
 
-	@Override
 	public void listitem() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.LISTITEMB))
+		{
+			pushToken();
+			innerItem();
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.LISTITEME))
+			{
+				pushToken();
+				listitem();
+			}
+			else
+			{
+				// error
+			}
+		}
+		else
+		{
+			// no error, listitem optional
+		}
 	}
 
-	@Override
 	public void innerItem() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.USEB))
+		{
+			variableUse();
+			innerItem();
+		}
+		else
+		{
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.BOLD))
+			{
+				bold();
+				innerItem();
+			}
+			else
+			{
+				if(MyCompiler.currentToken.equalsIgnoreCase(Token.ITALICS))
+				{
+					italics();
+					innerItem();
+				}
+				else
+				{
+					if(MyCompiler.currentToken.equalsIgnoreCase(Token.LINKB))
+					{
+						link();
+						innerItem();
+					}
+					else
+					{
+						if(MyLexicalAnalyzer.isValidText())
+						{
+							pushToken();
+							innerItem();
+						}
+						else
+						{
+							// no error, innerItem optional
+						}
+					}
+				}
+			}
+		}
 	}
 
-	@Override
 	public void link() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.LINKB))
+		{
+			pushToken();
+			while(MyLexicalAnalyzer.isValidText())
+			{
+				pushToken();
+			}
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.LINKE))
+			{
+				pushToken();
+				address();
+			}
+			else
+			{
+				// error
+			}
+		}
+		else
+		{
+			// no error, link optional
+		}
 	}
 
-	@Override
 	public void audio() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.AUDIO))
+		{
+			pushToken();
+			address();
+		}
+		else
+		{
+			// no error, audio optional
+		}
 	}
 
-	@Override
 	public void video() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.VIDEO))
+		{
+			pushToken();
+			address();
+		}
+		else
+		{
+			// no error, video optional
+		}
+	}
+	
+	public void address() throws CompilerException {
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.ADDRESSB))
+		{
+			pushToken();
+			while(MyLexicalAnalyzer.isValidText())
+			{
+				pushToken();
+			}
+			if(MyCompiler.currentToken.equalsIgnoreCase(Token.ADDRESSE))
+			{
+				pushToken();
+			}
+			else
+			{
+				// error
+			}
+		}
+		else
+		{
+			// error
+		}
 	}
 
-	@Override
 	public void newline() throws CompilerException {
-		// TODO Auto-generated method stub
-
+		if(MyCompiler.currentToken.equalsIgnoreCase(Token.NEWLINE))
+		{
+			pushToken();
+		}
+		else
+		{
+			// no error, newline optional
+		}
+	}
+	
+	private static void pushToken()
+	{
+		MyCompiler.parseTree.push(MyCompiler.currentToken);
+		MyLexicalAnalyzer.getNextToken();
 	}
 
 }
