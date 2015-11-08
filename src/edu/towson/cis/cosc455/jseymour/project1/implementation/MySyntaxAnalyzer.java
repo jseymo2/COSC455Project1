@@ -20,7 +20,7 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.DOCE + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
@@ -42,7 +42,7 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.HEAD + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
@@ -65,7 +65,7 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.TITLEE + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
@@ -114,12 +114,12 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.PARAE + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
 		{
-			// error
+			throw new CompilerException("Syntax Error: Expected " + Token.PARAB + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 		}
 	}
 
@@ -221,12 +221,12 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 				}
 				else
 				{
-					// error
+					throw new CompilerException("Syntax Error: Expected " + Token.DEFUSEE + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 				}
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.EQSIGN + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
@@ -249,7 +249,7 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.DEFUSEE + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
@@ -272,7 +272,7 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.BOLD + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
@@ -295,7 +295,7 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.ITALICS + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
@@ -316,7 +316,7 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.LISTITEME + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
@@ -384,7 +384,7 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.LINKE + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
@@ -431,12 +431,12 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 			}
 			else
 			{
-				// error
+				throw new CompilerException("Syntax Error: Expected " + Token.ADDRESSE + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 			}
 		}
 		else
 		{
-			// error
+			throw new CompilerException("Syntax Error: Expected " + Token.ADDRESSB + ", got " + MyCompiler.currentToken + ", at line " + MyCompiler.currentLine + ".");
 		}
 	}
 
