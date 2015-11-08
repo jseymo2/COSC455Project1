@@ -1,10 +1,11 @@
 package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
-import edu.towson.cis.cosc455.jseymour.project1.interfaces.SyntaxAnalyzer;
+//import edu.towson.cis.cosc455.jseymour.project1.interfaces.SyntaxAnalyzer;
 
-public class MySyntaxAnalyzer implements SyntaxAnalyzer {
+public class MySyntaxAnalyzer// implements SyntaxAnalyzer
+{
 
-	public void markdown() throws CompilerException
+	public static void markdown() throws CompilerException
 	{
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.DOCB))
 		{
@@ -30,7 +31,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void head() throws CompilerException {
+	public static void head() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.HEAD))
 		{
 			pushToken();
@@ -50,7 +51,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void title() throws CompilerException {
+	public static void title() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.TITLEB))
 		{
 			pushToken();
@@ -73,7 +74,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void body() throws CompilerException {
+	public static void body() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.LISTITEMB) || 
 				MyCompiler.currentToken.equalsIgnoreCase(Token.AUDIO) || 
 				MyCompiler.currentToken.equalsIgnoreCase(Token.VIDEO) || 
@@ -101,7 +102,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void paragraph() throws CompilerException {
+	public static void paragraph() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.PARAB))
 		{
 			pushToken();
@@ -122,7 +123,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void innerText() throws CompilerException {
+	public static void innerText() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.LISTITEMB))
 		{
 			listitem();
@@ -198,7 +199,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void variableDefine() throws CompilerException {
+	public static void variableDefine() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.DEFB))
 		{
 			pushToken();
@@ -234,7 +235,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void variableUse() throws CompilerException {
+	public static void variableUse() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.USEB))
 		{
 			pushToken();
@@ -257,7 +258,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void bold() throws CompilerException {
+	public static void bold() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.BOLD))
 		{
 			pushToken();
@@ -280,7 +281,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void italics() throws CompilerException {
+	public static void italics() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.ITALICS))
 		{
 			pushToken();
@@ -303,7 +304,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void listitem() throws CompilerException {
+	public static void listitem() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.LISTITEMB))
 		{
 			pushToken();
@@ -324,7 +325,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void innerItem() throws CompilerException {
+	public static void innerItem() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.USEB))
 		{
 			variableUse();
@@ -368,7 +369,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void link() throws CompilerException {
+	public static void link() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.LINKB))
 		{
 			pushToken();
@@ -392,7 +393,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void audio() throws CompilerException {
+	public static void audio() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.AUDIO))
 		{
 			pushToken();
@@ -404,7 +405,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void video() throws CompilerException {
+	public static void video() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.VIDEO))
 		{
 			pushToken();
@@ -416,7 +417,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 	
-	public void address() throws CompilerException {
+	public static void address() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.ADDRESSB))
 		{
 			pushToken();
@@ -439,7 +440,7 @@ public class MySyntaxAnalyzer implements SyntaxAnalyzer {
 		}
 	}
 
-	public void newline() throws CompilerException {
+	public static void newline() throws CompilerException {
 		if(MyCompiler.currentToken.equalsIgnoreCase(Token.NEWLINE))
 		{
 			pushToken();
