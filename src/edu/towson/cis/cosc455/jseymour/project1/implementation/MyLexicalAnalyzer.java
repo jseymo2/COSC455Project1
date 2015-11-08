@@ -24,6 +24,10 @@ public class MyLexicalAnalyzer //implements LexicalAnalyzer
 		try
 		{
 			nextCharacter = (char)MyCompiler.fis.read();
+			if(nextCharacter == '\n')
+			{
+				MyCompiler.currentLine++;
+			}
 		}
 		catch (IOException e)
 		{
