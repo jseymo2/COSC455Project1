@@ -1,5 +1,6 @@
 package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -57,7 +58,7 @@ public class MyCompiler
 			e.printStackTrace();
 		}
 		
-		file = new File(args[0].trim().substring(0, args[0].trim().lastIndexOf(".mkd")));
+		file = new File(args[0].trim().substring(0, args[0].trim().lastIndexOf(".mkd")) + ".html");
 		try
 		{
 			fos = new FileOutputStream(file);
@@ -66,6 +67,21 @@ public class MyCompiler
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		try
+		{
+			MySemanticAnalyzer.translate();
+			fos.close();
+			openHTMLFileInBrowser(args[0].trim().substring(0, args[0].trim().lastIndexOf(".mkd")) + ".html");
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (CompilerException e)
+		{
+			System.out.println(e.getErrorMessage());
 		}
 	}
 	
@@ -88,6 +104,22 @@ public class MyCompiler
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	private static void openHTMLFileInBrowser(String htmlFileStr){
+		File file= new File(htmlFileStr.trim());
+		if(!file.exists()){
+			System.err.println("File "+ htmlFileStr +" does not exist.");
+			return;
+		}
+		try{
+			Desktop.getDesktop().browse(file.toURI());
+		}
+		catch(IOException ioe){
+			System.err.println("Failed to open file");
+			ioe.printStackTrace();
+		}
+		return ;
 	}
 
 }
