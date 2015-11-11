@@ -9,7 +9,7 @@ public class MyLexicalAnalyzer //implements LexicalAnalyzer
 	
 	public static char nextCharacter = '\0';
 
-	public static void getNextToken() {
+	public static void getNextToken() throws CompilerException {
 		MyCompiler.currentToken = "";
 		getCharacter();
 		while(isSpace())
@@ -17,6 +17,14 @@ public class MyLexicalAnalyzer //implements LexicalAnalyzer
 		while(!isSpace())
 		{
 			addCharacter();
+		}
+		if(lookupToken() || isValidText())
+		{
+			
+		}
+		else
+		{
+			throw new CompilerException("Lexical Error: Invalid token " + MyCompiler.currentToken + ".");
 		}
 	}
 
