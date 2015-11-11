@@ -451,10 +451,11 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 		}
 	}
 	
-	private static void pushToken()
+	private static void pushToken() throws CompilerException
 	{
 		MyCompiler.parseTree.push(MyCompiler.currentToken);
 		MyLexicalAnalyzer.getNextToken();
+		System.out.println(MyCompiler.currentToken);
 	}
 
 }
