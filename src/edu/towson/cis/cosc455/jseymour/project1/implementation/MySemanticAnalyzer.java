@@ -1,5 +1,6 @@
 package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
+
 import java.io.IOException;
 import java.util.Stack;
 
@@ -15,6 +16,7 @@ public class MySemanticAnalyzer
 	{
 		while(!MyCompiler.parseTree.isEmpty())
 		{
+			System.out.println(MyCompiler.parseTree.size());
 			switch(MyCompiler.parseTree.peek().toUpperCase())
 			{
 			case Token.DOCB:
@@ -22,7 +24,7 @@ public class MySemanticAnalyzer
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.DOCE:
-				MyCompiler.fos.write("<html>".getBytes());
+				MyCompiler.fos.write("</html>".getBytes());
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.HEAD:
@@ -33,7 +35,7 @@ public class MySemanticAnalyzer
 				}
 				else
 				{
-					MyCompiler.fos.write("\n<head>".getBytes());
+					MyCompiler.fos.write("\n</head>".getBytes());
 					head = !head;
 				}
 				break;
@@ -42,7 +44,7 @@ public class MySemanticAnalyzer
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.TITLEE:
-				MyCompiler.fos.write("<title>".getBytes());
+				MyCompiler.fos.write("</title>".getBytes());
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.PARAB:
@@ -50,35 +52,35 @@ public class MySemanticAnalyzer
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.PARAE:
-				MyCompiler.fos.write("<p>".getBytes());
+				MyCompiler.fos.write("</p>".getBytes());
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.DEFUSEE:
 				MyCompiler.parseTree.pop();
 				var = MyCompiler.parseTree.pop();
-				if(MyCompiler.parseTree.pop().equalsIgnoreCase(Token.EQSIGN))
+				if(MyCompiler.parseTree.peek().equalsIgnoreCase(Token.EQSIGN))
 				{
+					MyCompiler.parseTree.pop();
 					MyCompiler.parseTree.pop();
 					MyCompiler.parseTree.pop();
 				}
 				else
 				{
 					MyCompiler.fos.write(getVariable(var).getBytes());
-					MyCompiler.parseTree.pop();
 				}
 				break;
 			case Token.BOLD:
 				if(bold)
 					MyCompiler.fos.write("\n<b>".getBytes());
 				else
-					MyCompiler.fos.write("<b>".getBytes());
+					MyCompiler.fos.write("</b>".getBytes());
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.ITALICS:
 				if(italics)
 					MyCompiler.fos.write("\n<i>".getBytes());
 				else
-					MyCompiler.fos.write("<i>".getBytes());
+					MyCompiler.fos.write("</i>".getBytes());
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.LISTITEMB:
@@ -86,7 +88,7 @@ public class MySemanticAnalyzer
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.LISTITEME:
-				MyCompiler.fos.write("<li>".getBytes());
+				MyCompiler.fos.write("</li>".getBytes());
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.NEWLINE:
@@ -143,6 +145,9 @@ public class MySemanticAnalyzer
 					break;
 				}
 				break;
+				default:
+					MyCompiler.fos.write(MyCompiler.parseTree.pop().getBytes());
+					break;
 			}
 		}
 	}
@@ -151,7 +156,7 @@ public class MySemanticAnalyzer
 	{
 		String out = "";
 		Stack<String> tmp = new Stack<String>();
-		tmp.push(MyCompiler.parseTree.pop());
+		//tmp.push(MyCompiler.parseTree.pop());
 		while(!MyCompiler.parseTree.peek().equalsIgnoreCase(v))
 		{
 			if(MyCompiler.parseTree.isEmpty())
@@ -169,6 +174,7 @@ public class MySemanticAnalyzer
 		{
 			MyCompiler.parseTree.push(tmp.pop());
 		}
+		MyCompiler.parseTree.pop();
 		return out;
 	}
 }

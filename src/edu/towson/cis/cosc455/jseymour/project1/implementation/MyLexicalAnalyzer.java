@@ -1,5 +1,6 @@
 package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
+
 import java.io.IOException;
 
 //import edu.towson.cis.cosc455.jseymour.project1.interfaces.LexicalAnalyzer;
@@ -7,20 +8,26 @@ import java.io.IOException;
 public class MyLexicalAnalyzer //implements LexicalAnalyzer
 {
 	
-	public static char nextCharacter = '\0';
+	public static char nextCharacter = '0';
 
 	public static void getNextToken() throws CompilerException {
 		MyCompiler.currentToken = "";
 		getCharacter();
+		//System.out.println(nextCharacter);
 		while(isSpace())
+		{
 			getCharacter();
+			//System.out.println(nextCharacter);
+		}
 		while(!isSpace())
 		{
 			addCharacter();
+			getCharacter();
+			//System.out.println(nextCharacter);
 		}
 		if(lookupToken() || isValidText())
 		{
-			
+			return;
 		}
 		else
 		{

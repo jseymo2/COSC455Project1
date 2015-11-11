@@ -1,8 +1,0 @@
-#BEGIN 
-   { 
-      So far, this is a legal document 
-   } 
-   #PARAGRAPH  
-      Oh no its not legal anymore   
-   } 
-#END

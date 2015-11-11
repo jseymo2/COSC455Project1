@@ -1,5 +1,6 @@
 package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
+
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +14,7 @@ public class MyCompiler
 	
 	public static String currentToken = "";
 	public static int currentLine = 1;
+	private static boolean err = false;
 	static Stack<String> parseTree = new Stack<String>();
 	static File file = null;
 	static FileInputStream fis = null;
@@ -29,10 +31,10 @@ public class MyCompiler
 		{
 			MyLexicalAnalyzer.getNextToken();
 		}
-		catch (CompilerException e1)
+		catch (CompilerException e)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			System.out.println(e.getErrorMessage());
+			err = true;
 		}
 		
 		try
@@ -42,10 +44,12 @@ public class MyCompiler
 		catch (CompilerException e)
 		{
 			System.out.println(e.getErrorMessage());
+			err = true;
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			err = true;
 		}
 		
 		try
@@ -68,20 +72,26 @@ public class MyCompiler
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try
+		
+		if (!err)
 		{
-			MySemanticAnalyzer.translate();
-			fos.close();
-			openHTMLFileInBrowser(args[0].trim().substring(0, args[0].trim().lastIndexOf(".mkd")) + ".html");
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (CompilerException e)
-		{
-			System.out.println(e.getErrorMessage());
+			try
+			{
+				MySemanticAnalyzer.translate();
+				fos.close();
+				openHTMLFileInBrowser(args[0].trim().substring(0,
+						args[0].trim().lastIndexOf(".mkd"))
+						+ ".html");
+			}
+			catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			catch (CompilerException e)
+			{
+				System.out.println(e.getErrorMessage());
+			}
 		}
 	}
 	

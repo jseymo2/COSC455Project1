@@ -1,5 +1,6 @@
 package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
+
 /**
  * Parsing exception. For simplicity, this is used for both lexical errors as
  * well as parsing errors. A more complete design would include a hierarchy of

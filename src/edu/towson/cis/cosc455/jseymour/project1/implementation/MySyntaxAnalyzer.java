@@ -1,5 +1,6 @@
 package edu.towson.cis.cosc455.jseymour.project1.implementation;
 
+
 //import edu.towson.cis.cosc455.jseymour.project1.interfaces.SyntaxAnalyzer;
 
 public class MySyntaxAnalyzer// implements SyntaxAnalyzer
@@ -155,35 +156,35 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 						if(MyCompiler.currentToken.equalsIgnoreCase(Token.USEB))
 						{
 							variableUse();
-							innerItem();
+							innerText();
 						}
 						else
 						{
 							if(MyCompiler.currentToken.equalsIgnoreCase(Token.BOLD))
 							{
 								bold();
-								innerItem();
+								innerText();
 							}
 							else
 							{
 								if(MyCompiler.currentToken.equalsIgnoreCase(Token.ITALICS))
 								{
 									italics();
-									innerItem();
+									innerText();
 								}
 								else
 								{
 									if(MyCompiler.currentToken.equalsIgnoreCase(Token.LINKB))
 									{
 										link();
-										innerItem();
+										innerText();
 									}
 									else
 									{
 										if(MyLexicalAnalyzer.isValidText())
 										{
 											pushToken();
-											innerItem();
+											innerText();
 										}
 										else
 										{
@@ -454,8 +455,8 @@ public class MySyntaxAnalyzer// implements SyntaxAnalyzer
 	private static void pushToken() throws CompilerException
 	{
 		MyCompiler.parseTree.push(MyCompiler.currentToken);
-		MyLexicalAnalyzer.getNextToken();
 		System.out.println(MyCompiler.currentToken);
+		MyLexicalAnalyzer.getNextToken();
 	}
 
 }
