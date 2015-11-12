@@ -6,7 +6,6 @@ import java.util.Stack;
 
 public class MySemanticAnalyzer
 {
-	private static Stack<String> out = new Stack<String>();
 	private static boolean head = false;
 	private static boolean bold = false;
 	private static boolean italics = false;
@@ -16,43 +15,44 @@ public class MySemanticAnalyzer
 	{
 		while(!MyCompiler.parseTree.isEmpty())
 		{
-			System.out.println(MyCompiler.parseTree.size());
+			//System.out.println(MyCompiler.parseTree.size());
 			switch(MyCompiler.parseTree.peek().toUpperCase())
 			{
 			case Token.DOCB:
-				MyCompiler.fos.write("\n<html>".getBytes());
+				MyCompiler.outStack.push("\n<html>");
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.DOCE:
-				MyCompiler.fos.write("</html>".getBytes());
+				MyCompiler.outStack.push("</html>");
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.HEAD:
 				if(head)
 				{
-					MyCompiler.fos.write("<head>".getBytes());
+					MyCompiler.outStack.push("<head>");
 					head = !head;
 				}
 				else
 				{
-					MyCompiler.fos.write("\n</head>".getBytes());
+					MyCompiler.outStack.push("\n</head>");
 					head = !head;
 				}
+				MyCompiler.parseTree.pop();
 				break;
 			case Token.TITLEB:
-				MyCompiler.fos.write("\n<title>".getBytes());
+				MyCompiler.outStack.push("\n<title>");
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.TITLEE:
-				MyCompiler.fos.write("</title>".getBytes());
+				MyCompiler.outStack.push("</title>");
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.PARAB:
-				MyCompiler.fos.write("\n<p>".getBytes());
+				MyCompiler.outStack.push("\n<p>");
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.PARAE:
-				MyCompiler.fos.write("</p>".getBytes());
+				MyCompiler.outStack.push("</p>");
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.DEFUSEE:
@@ -66,53 +66,65 @@ public class MySemanticAnalyzer
 				}
 				else
 				{
-					MyCompiler.fos.write(getVariable(var).getBytes());
+					MyCompiler.outStack.push(getVariable(var));
 				}
 				break;
 			case Token.BOLD:
 				if(bold)
-					MyCompiler.fos.write("\n<b>".getBytes());
+				{
+					MyCompiler.outStack.push("\n<b>");
+					bold = !bold;
+				}
 				else
-					MyCompiler.fos.write("</b>".getBytes());
+				{
+					MyCompiler.outStack.push("</b>");
+					bold = !bold;
+				}
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.ITALICS:
 				if(italics)
-					MyCompiler.fos.write("\n<i>".getBytes());
+				{
+					MyCompiler.outStack.push("\n<i>");
+					italics = !italics;
+				}
 				else
-					MyCompiler.fos.write("</i>".getBytes());
+				{
+					MyCompiler.outStack.push("</i>");
+					italics = !italics;
+				}
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.LISTITEMB:
-				MyCompiler.fos.write("\n<li>".getBytes());
+				MyCompiler.outStack.push("\n<li>");
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.LISTITEME:
-				MyCompiler.fos.write("</li>".getBytes());
+				MyCompiler.outStack.push("</li>");
 				MyCompiler.parseTree.pop();
 				break;
 			case Token.NEWLINE:
-				MyCompiler.fos.write("\n<br>".getBytes());
+				MyCompiler.outStack.push("\n<br>");
 				MyCompiler.parseTree.pop();
 				break;
 //			case Token.LINKB:
-//				MyCompiler.fos.write("</a>".getBytes());
+//				MyCompiler.outStack.push("</a>");
 //				MyCompiler.parseTree.pop();
 //				break;
 //			case Token.LINKE:
-//				MyCompiler.fos.write(">".getBytes());
+//				MyCompiler.outStack.push(">");
 //				MyCompiler.parseTree.pop();
 //				break;
 //			case Token.AUDIO:
-//				MyCompiler.fos.write("<li>".getBytes());
+//				MyCompiler.outStack.push("<li>");
 //				MyCompiler.parseTree.pop();
 //				break;
 //			case Token.VIDEO:
-//				MyCompiler.fos.write("<li>".getBytes());
+//				MyCompiler.outStack.push("<li>");
 //				MyCompiler.parseTree.pop();
 //				break;
 //			case Token.ADDRESSB:
-//				MyCompiler.fos.write("<li>".getBytes());
+//				MyCompiler.outStack.push("<li>");
 //				MyCompiler.parseTree.pop();
 //				break;
 			case Token.ADDRESSE:
@@ -125,28 +137,34 @@ public class MySemanticAnalyzer
 				else
 				{
 					var = MyCompiler.parseTree.pop();
+					while(!MyCompiler.parseTree.peek().equalsIgnoreCase(Token.ADDRESSB))
+						var = MyCompiler.parseTree.pop() + " " + var;
 				}
 				MyCompiler.parseTree.pop();
 				switch(MyCompiler.parseTree.peek())
 				{
 				case Token.LINKE:
-					MyCompiler.fos.write(("\n<a href=\"" + var + "\">" + MyCompiler.parseTree.pop() + "</a>").getBytes());
+					MyCompiler.parseTree.pop();
+					String var2 = MyCompiler.parseTree.pop();
+					while(!MyCompiler.parseTree.peek().equalsIgnoreCase(Token.LINKB))
+						var2 = MyCompiler.parseTree.pop() + " " + var2;
+					MyCompiler.outStack.push(("\n<a href=\"" + var + "\">" + var2 + "</a>"));
 					MyCompiler.parseTree.pop();
 					break;
 				case Token.AUDIO:
-					MyCompiler.fos.write(("\n<audio controls>" +
+					MyCompiler.outStack.push(("<br>\n<audio controls>" +
 										"\n\t<source src=\"" + var + "\">" +
-										"\n</audio>").getBytes());
+										"\n</audio><br>"));
 					MyCompiler.parseTree.pop();
 					break;
 				case Token.VIDEO:
-					MyCompiler.fos.write(("\n<iframe src=\"" + var + "\"/>").getBytes());
+					MyCompiler.outStack.push(("\n<iframe src=\"" + var + "\"/>"));
 					MyCompiler.parseTree.pop();
 					break;
 				}
 				break;
 				default:
-					MyCompiler.fos.write(MyCompiler.parseTree.pop().getBytes());
+					MyCompiler.outStack.push(MyCompiler.parseTree.pop());
 					break;
 			}
 		}
@@ -154,27 +172,57 @@ public class MySemanticAnalyzer
 	
 	private static String getVariable(String v) throws CompilerException
 	{
+		boolean inPara = true;
+		boolean allowPara = true;
 		String out = "";
 		Stack<String> tmp = new Stack<String>();
 		//tmp.push(MyCompiler.parseTree.pop());
-		while(!MyCompiler.parseTree.peek().equalsIgnoreCase(v))
+		while(!MyCompiler.parseTree.isEmpty())
 		{
-			if(MyCompiler.parseTree.isEmpty())
+			if(MyCompiler.parseTree.peek().equalsIgnoreCase(Token.PARAB))
 			{
-				throw new CompilerException("Semantic Error: Variable " + v + " not defined.");
+				inPara = false;
+				allowPara = false;
+				tmp.push(MyCompiler.parseTree.pop());
+				continue;
+			}
+			else
+			{
+				if(MyCompiler.parseTree.peek().equalsIgnoreCase(Token.PARAE))
+				{
+					inPara = true;
+					allowPara = false;
+					tmp.push(MyCompiler.parseTree.pop());
+					continue;
+				}
+			}
+			if(MyCompiler.parseTree.peek().equalsIgnoreCase(Token.EQSIGN) && (inPara ? allowPara : true))
+			{
+				tmp.push(MyCompiler.parseTree.pop());
+				if(MyCompiler.parseTree.peek().equalsIgnoreCase(v))
+				{
+					break;
+				}
 			}
 			else
 			{
 				tmp.push(MyCompiler.parseTree.pop());
 			}
 		}
-		MyCompiler.parseTree.push(tmp.pop());
-		out = tmp.peek();
-		while(!tmp.isEmpty())
+		if (!MyCompiler.parseTree.isEmpty())
 		{
 			MyCompiler.parseTree.push(tmp.pop());
+			out = tmp.peek();
+			while (!tmp.isEmpty())
+			{
+				MyCompiler.parseTree.push(tmp.pop());
+			}
+			MyCompiler.parseTree.pop();
 		}
-		MyCompiler.parseTree.pop();
+		else
+		{
+			throw new CompilerException("Semantic Error: Variable \"" + v + "\" not defined.");
+		}
 		return out;
 	}
 }

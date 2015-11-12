@@ -16,6 +16,7 @@ public class MyCompiler
 	public static int currentLine = 1;
 	private static boolean err = false;
 	static Stack<String> parseTree = new Stack<String>();
+	static Stack<String> outStack = new Stack<String>();
 	static File file = null;
 	static FileInputStream fis = null;
 	static FileOutputStream fos = null;
@@ -60,6 +61,7 @@ public class MyCompiler
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			err = true;
 		}
 		
 		file = new File(args[0].trim().substring(0, args[0].trim().lastIndexOf(".mkd")) + ".html");
@@ -71,6 +73,7 @@ public class MyCompiler
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			err = true;
 		}
 		
 		if (!err)
@@ -78,6 +81,10 @@ public class MyCompiler
 			try
 			{
 				MySemanticAnalyzer.translate();
+				while(!outStack.isEmpty())
+				{
+					fos.write((outStack.pop() + " ").getBytes());
+				}
 				fos.close();
 				openHTMLFileInBrowser(args[0].trim().substring(0,
 						args[0].trim().lastIndexOf(".mkd"))
@@ -87,10 +94,12 @@ public class MyCompiler
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				err = true;
 			}
 			catch (CompilerException e)
 			{
 				System.out.println(e.getErrorMessage());
+				err = true;
 			}
 		}
 	}
@@ -112,6 +121,7 @@ public class MyCompiler
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			err = true;
 		}
 		return false;
 	}
@@ -128,6 +138,7 @@ public class MyCompiler
 		catch(IOException ioe){
 			System.err.println("Failed to open file");
 			ioe.printStackTrace();
+			err = true;
 		}
 		return ;
 	}
